@@ -11,24 +11,1495 @@
 
 		<link rel="stylesheet" href="dist/reset.css" />
 		<link rel="stylesheet" href="dist/reveal.css" />
-		<link rel="stylesheet" href="dist/theme/black.css" />
+		<link rel="stylesheet" href="dist/theme/sky.css" />
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
+		<link rel="stylesheet" href="dist/plugin/highlight/zenburn.css" />
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+								<section>
+					<section>
+						<h3>A WPF application</h3>
+						<img src="./images/wpf-app-ui.png">
+					</section>
+					<section>
+						<h4>Structure</h4>
+						<img src="./images/wpf-app-architecture.PNG">
+						This WPF application uses the MVVM pattern
+					</section>
+					<section>
+						<h4>The MVVM pattern</h4>
+						<img src="./images/mvvm-references.PNG">
+					</section>
+					<section>
+						<h4>Testing our WPF application</h4>
+						<ul>
+							<li>Simple business logic</li>
+							<li>File handling</li>
+							<li>User interface</li>
+							<li>No APIs</li>
+							<li>No integrations</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Value of testing</h3>
+					</section>
+					<section>
+						<h4>Purposes</h4>
+						<ul>
+							<li class="fragment">Catching bugs</li>
+							<li class="fragment">Increase code quality</li>
+							<li class="fragment">Confidence for release/integration (CI/CD)</li>
+							<li class="fragment">Feedback for developer (agile practice)</li>
+							<li class="fragment">Documentation of bugs</li>
+							<li class="fragment">Documentation of code</li>
+							<li  class="fragment">Prepare maintenance (refactoring)</li>
+						</ul>
+						<aside class="notes">
+							<ul>
+								<li>Catching bugs</li>
+								<li>Increase code quality</li>
+								<li>Verification practice (traceability)</li>
+								<li>Confidence for release/integration (CI/CD)</li>
+								<li>Feedback for developer (agile practice)</li>
+								<li>Documentation of bugs</li>
+								<li>Documentation of code</li>
+								<li>Prepare maintenance (refactoring)</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h4>Testing goals</h4>
+						<img src="./images/coverage.png">
+						<p class="fragment">
+							(Kent C. Dodds) I've heard managers and teams mandating 100% code coverage for applications. That's a really bad idea.
+							<span class="fragment">[...] I should mention that almost all of my open source projects have 100% code coverage.</span>
+						</p>
+					</section>
+				</section>
+				<!-- <Section>
+					<Section><h3>Test purposes</h3></Section>
+					<Section>Regression tests</Section>
+					<Section>Smoke tests</Section>
+					<Section>...</Section>
+				</Section> -->
+				<!-- <Section>
+					<h3>A microservice</h3>
+					<ul>
+						<li class="fragment">database connection</li>
+						<li class="fragment">provides REST interface</li>
+						<li class="fragment">API integration</li>
+					</ul>
+				</Section>
+				<Section>
+					<h3>A webapp</h3>
+					<ul>
+						<li class="fragment">backend connection</li>
+						<li class="fragment">React components</li>
+					</ul>
+				</Section> -->
+				<section>
+					<Section><h3>"The test pyramid"</h3>
+						<img src="./images/testPyramid-vocke-cohn.png" height="100">
+						<img src="./images/dodds-trophy.png" height="100">
+						<img src="./images/testing-honeycomb.png" height="100">
+					</Section>
+					<Section>
+						<h4>Original test pyramid metaphor</h4>
+						<img src="./images/testPyramid-vocke-cohn.png">
+						<p>(Succeeding with agile, Mike Cohn, 2009)</p>
+					</Section>
+					<Section>
+						<h4>Testing Trophy</h4>
+						<img src="./images/dodds-trophy.png" height="400">
+						<p>(The Testing Trophy and Testing Classifications, Kent C. Dodds, 2021)</p>
+					</Section>
+					<Section>
+						<h4>Testing Honeycomb</h4>
+						<img src="./images/testing-honeycomb.png" height="400">
+						<p>(Testing of Microservices, Spotify, 2018)</p>
+					</Section>
+					<Section>
+						<h4>The general test pyramid</h4>
+						<p>
+							<ul>
+								<li>group tests for different purposes</li>
+								<li>name them to suit the grouping</li>
+								<li>determine value for tests in each group</li>
+							</ul>
+						</p>
+						<svg id="generalPyramid" viewBox="0 0 600 375" width="600" height="375" />
+						<p>Write tests with a high ROI!</p>
+					</Section>
+				</section>
+				<section>
+					<Section><h3>Test groupings</h3></Section>
+					<Section>
+						<h4>Unit tests</h4>
+						<p>
+							<ul>
+								<li class="fragment">not uniquely defined</li>
+								<li class="fragment">close to developer</li>
+								<li class="fragment">low(est)-level</li>
+								<li class="fragment">fast (compile suite and commit suite)</li>
+							</ul>
+							<img class="fragment" src="./images/fowler-isolate.png">
+						</p>
+					</Section>
+					<Section>
+						<h4>Integrations tests</h4>
+						<p>
+							<ul>
+								<li class="fragment">not uniquely defined</li>
+								<li class="fragment">sometimes refer to external integrations</li>
+								<li class="fragment">sometimes refer to integrations of units</li>
+							</ul>
+						</p>
+					</Section>
+					<Section>
+						<h4>End-to-end tests</h4>
+						<p>
+							<ul>
+								<li class="fragment">pretty well-defined</li>
+								<li class="fragment">test on complete application</li>
+							</ul>
+						</p>
+					</Section>
+					
+				</section>
+				<section>
+					<section>
+						<h3>Building a pyramid</h3>
+					</section>
+					<section>
+						<h4>Three groups relevant to the WPF application</h4>
+
+						<ul>
+							<li><label>Top: <input id="top" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label></li>
+							<li><label>Middle: <input id="mid" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label></li>
+							<li><label>Bottom: <input id="bottom" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label>	</li>
+						</ul>	
+
+
+						<td><img style="margin-top: 50px" src="./images/wpf-app-ui.png" width="400" ></td>
+						<td><img src="./images/wpf-app-architecture.PNG" width="400"></td>
+					</section>
+					<!-- <section>
+						<h4>Let's define the the proportions</h4>
+
+						<ul>
+							<li><label>Top: <input id="top-target" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label></li>
+							<li><label>Middle: <input id="mid-target" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label></li>
+							<li><label>Bottom: <input id="bottom-target" type="text" style="appearance: none; --webkit-appearance: none; border: 0; outline: 0; background: transparent; padding: 0; margin: 0; font: inherit; color: #c2410c;"/></label></li>
+						</ul>	
+					</section> -->
+					<section>
+						<h4>Our pyramid</h4>
+						<svg id="testPyramid" viewBox="0 0 800 520" width="800" height="520" />
+					</section>
+				</section>
+			
+				<section>
+					<section>
+						<h3>Testing the model</h3>
+						<img src="./images/test-model.PNG" height="400">
+					</section>
+					<section>
+						<pre>WorkItem.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|3-8|10-17">
+								namespace TaskTrackingApplication.Models
+								{
+									public enum WorkItemStatus
+									{
+										Todo,
+										Doing,
+										Done,
+									}
+
+									public sealed class WorkItem
+									{
+										public Guid Id { get; init; } = Guid.NewGuid();
+										public string Title { get; set; } = "";
+										public string Description { get; set; } = "";
+										public WorkItemStatus Status { get; set; }
+										public DateTime? DueDate { get; set; }
+									}
+								}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>TestWorkItem.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|5-10|12-13|15-19|21-28|30-37">
+								namespace TestTaskTrackingApplication.Models
+								{
+									internal class TestWorkItem
+									{
+										[Test]
+										public void TestIdIsAssigned()
+										{
+											var item = new WorkItem();
+											Assert.That(item.Id, Is.Not.EqualTo(new Guid()));
+										}
+
+										[Test]
+										public void TestCreation()
+										{
+											var id = Guid.NewGuid();
+											var name = "Test";
+											var words = "Description of item";
+											var progress = WorkItemStatus.Doing;
+											var distantFuture = DateTime.MaxValue;
+
+											var item = new WorkItem
+											{
+												Id = id,
+												Title = name,
+												Description = words,
+												Status = progress,
+												DueDate = distantFuture,
+											};
+
+											Assert.Multiple(() =>
+											{
+												Assert.That(item.Id, Is.EqualTo(id));
+												Assert.That(item.Title, Is.EqualTo(name));
+												Assert.That(item.Description, Is.EqualTo(words));
+												Assert.That(item.Status, Is.EqualTo(progress));
+												Assert.That(item.DueDate, Is.EqualTo(distantFuture));
+											});
+										}
+									}
+								}
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Testing the view model</h3>
+						<img src="./images/test-viewmodel.PNG" height="400">
+					</section>
+					<section>
+						<pre>WorkItemViewModel.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|7-59|61-75">
+								using TaskTrackingApplication.Models;
+
+								namespace TaskTrackingApplication.ViewModels
+								{
+									public sealed class WorkItemViewModel : ViewModelBase
+									{
+										private readonly WorkItem _model;
+
+										public WorkItemViewModel(WorkItem model)
+										{
+											_model = model ?? throw new ArgumentNullException(nameof(model));
+										}
+
+										public Guid Id => _model.Id;
+
+										public string Title
+										{
+											get => _model.Title;
+											set
+											{
+												if (SetModelProperty(_model.Title, value, (v) => _model.Title = v))
+												{
+													OnPropertyChanged(nameof(DisplayTitle));
+												}
+											}
+										}
+
+										public string Description
+										{
+											get => _model.Description;
+											set => SetModelProperty(_model.Description, value, (v) => _model.Description = v);
+										}
+
+										public WorkItemStatus Status
+										{
+											get => _model.Status;
+											set 
+											{
+												if (SetModelProperty(_model.Status, value, (v) => _model.Status = v))
+												{
+													OnPropertyChanged(nameof(IsDone));
+													OnPropertyChanged(nameof(DisplayTitle));
+												}
+											}
+										}
+
+										public DateTime? DueDate
+										{
+											get => _model.DueDate;
+											set
+											{
+												if (SetModelProperty(_model.DueDate, value, (v) => _model.DueDate = v))
+												{
+													OnPropertyChanged(nameof(IsOverdue));
+												}
+											}
+										}
+
+										public WorkItem ToModel() => _model;
+
+										public bool IsDone
+										{
+											get => Status == WorkItemStatus.Done;
+										}
+
+										public bool IsOverdue => DueDate is DateTime due &&
+											!IsDone &&
+											due.Date < DateTime.Today;
+
+										public string DisplayTitle =>
+											string.IsNullOrWhiteSpace(Title)
+												? "(No title)"
+												: IsDone
+													? $"\u2713 {Title}"
+													: Title;
+									}
+								}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>TestWorkItemViewModel.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|8-78|80-150">
+								<script type="text/template">
+									using TaskTrackingApplication.Models;
+									using TaskTrackingApplication.ViewModels;
+
+									namespace TestTaskTrackingApplication.ViewModels
+									{
+										internal class TestWorkItemViewModel
+										{
+											[Test]
+											public void TestActualUnderlyingModel() 
+											{
+												Assert.Throws<ArgumentNullException>(() => new WorkItemViewModel(null!));
+											}
+
+											[Test]
+											public void TestIdFromModelAdopted()
+											{
+												var model = new WorkItem();
+												var viewModel = new WorkItemViewModel(model);
+
+												Assert.That(viewModel.Id, Is.EqualTo(model.Id));
+											}
+
+											[Test]
+											public void TestToModel()
+											{
+												var model = new WorkItem();
+												var viewModel = new WorkItemViewModel(model);
+
+												Assert.That(viewModel.ToModel(), Is.EqualTo(model));
+											}
+
+											[Test]
+											public void TestUpdatingTitleTriggersNotifications()
+											{
+												var viewModel = new WorkItemViewModel(new WorkItem());
+												HashSet<string> updatedProperties = [];
+												viewModel.PropertyChanged += (_, args) => { updatedProperties.Add(args.PropertyName ?? "UNKNOWN"); };
+
+												viewModel.Title = "Updated title";
+
+												Assert.That(updatedProperties, Is.EquivalentTo(["Title", "DisplayTitle"]));
+											}
+
+											[Test]
+											public void TestUpdatingDescriptionTriggersNotification()
+											{
+												var viewModel = new WorkItemViewModel(new WorkItem { Description = "Initial description"});
+												HashSet<string> updatedProperties = [];
+												viewModel.PropertyChanged += (_, args) => { updatedProperties.Add(args.PropertyName ?? "UNKNOWN"); };
+
+												viewModel.Description = "Updated description";
+
+												Assert.That(updatedProperties, Is.EquivalentTo(["Description"]));
+											}
+
+											[Test]
+											public void TestUpdatingStatusTriggersNotification()
+											{
+												var viewModel = new WorkItemViewModel(new WorkItem { Status = WorkItemStatus.Todo });
+												HashSet<string> updatedProperties = [];
+												viewModel.PropertyChanged += (_, args) => { updatedProperties.Add(args.PropertyName ?? "UNKNOWN"); };
+
+												viewModel.Status = WorkItemStatus.Doing;
+
+												Assert.That(updatedProperties, Is.EquivalentTo(["Status", "IsDone", "DisplayTitle"]));
+											}
+
+											[Test]
+											public void TestUpdatingDueDateTriggersNotification()
+											{
+												var viewModel = new WorkItemViewModel(new WorkItem { DueDate = null });
+												HashSet<string> updatedProperties = [];
+												viewModel.PropertyChanged += (_, args) => { updatedProperties.Add(args.PropertyName ?? "UNKNOWN"); };
+
+												viewModel.DueDate = DateTime.Today;
+
+												Assert.That(updatedProperties, Is.EquivalentTo(["DueDate", "IsOverdue"]));
+											}
+
+											[Test]
+											public void TestOnlyDoneWhenIsDone([Values]WorkItemStatus status)
+											{
+												var viewModel = new WorkItemViewModel(new WorkItem())
+												{
+													Status = status
+												};
+
+												Assert.That(viewModel.IsDone, Is.EqualTo(status == WorkItemStatus.Done));
+											}
+
+											[TestCase(-1)]
+											[TestCase(0)]
+											[TestCase(1)]
+											public void TestItemInProgressIsOverdue(int dateOffset) 
+											{
+													var due = DateTime.Today.AddDays(dateOffset);
+													var viewModel = new WorkItemViewModel(new WorkItem())
+													{
+														DueDate = due,
+														Status = WorkItemStatus.Doing,
+													};
+
+													Assert.That(viewModel.IsOverdue, Is.EqualTo(due < DateTime.Today));
+											}
+
+											[Test]
+											public void TestLateItemIsOverdue([Values]WorkItemStatus status)
+											{
+												var yesterday = DateTime.Today.AddDays(-1);
+												var viewModel = new WorkItemViewModel(new WorkItem())
+												{
+													DueDate = yesterday,
+													Status = status,
+												};
+
+												Assert.That(viewModel.IsOverdue, Is.EqualTo(status != WorkItemStatus.Done));
+											}
+
+											[Test]
+											public void TestDisplayTitleForItemInProgress()
+											{
+												var uniqueTitle = Guid.NewGuid().ToString();
+												var viewModel = 
+													new WorkItemViewModel(
+														new WorkItem { Title = uniqueTitle, Status = WorkItemStatus.Doing });
+
+												Assert.That(viewModel.DisplayTitle, Is.EqualTo(uniqueTitle));
+											}
+
+											[Test]
+											public void TestDisplayTitleForItemThatIsDone()
+											{
+												var uniqueTitle = Guid.NewGuid().ToString();
+												var viewModel =
+													new WorkItemViewModel(
+														new WorkItem { Title = uniqueTitle, Status = WorkItemStatus.Done });
+
+												Assert.That(viewModel.DisplayTitle.Contains(uniqueTitle), Is.True);
+											}
+
+											[Test]
+											public void TestDisplayTitleForItemWithoutTitle([Values]WorkItemStatus status)
+											{
+												var uniqueTitle = "";
+												var viewModel =
+													new WorkItemViewModel(
+														new WorkItem { Title = uniqueTitle, Status = status });
+
+												Assert.That(viewModel.DisplayTitle, Is.EqualTo("(No title)"));
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>ViewModelBase.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|8-17|19-48|50-53">
+								<script type="text/template">
+									using System.ComponentModel;
+									using System.Runtime.CompilerServices;
+
+									namespace TaskTrackingApplication.ViewModels
+									{
+										public abstract class ViewModelBase : INotifyPropertyChanged
+										{
+											#region INotifyPropertyChanged impelementation
+
+											public event PropertyChangedEventHandler? PropertyChanged;
+
+											#endregion
+
+											protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+											{
+												PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+											}
+
+											protected bool SetProperty<T>(
+												ref T field,
+												T value,
+												[CallerMemberName] string? propertyName = null)
+											{
+												if (EqualityComparer<T>.Default.Equals(field, value))
+												{
+													return false;
+												}
+
+												field = value;
+												OnPropertyChanged(propertyName);
+												return true;
+											}
+
+											protected bool SetModelProperty<T>(
+												T currentValue,
+												T newValue,
+												Action<T> setter,
+												[CallerMemberName] string? propertyName = null)
+											{
+												if (EqualityComparer<T>.Default.Equals(currentValue, newValue))
+												{
+													return false;
+												}
+
+												setter(newValue);
+												OnPropertyChanged(propertyName);
+												return true;
+											}
+
+											protected void NotifyAllPropertiesChanged()
+											{
+												OnPropertyChanged(string.Empty);
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>TestViewModelBase.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|10-32|36-74|76-114|116-128">
+								<script type="text/template">
+										using TaskTrackingApplication.ViewModels;
+
+										namespace TaskTrackingApplication.Tests.ViewModels
+										{
+											class ModelImplementation
+											{
+												public string ExampleModelProperty { get; set; }
+											}
+
+											class ViewModelBaseImplementation : ViewModelBase 
+											{
+												private ModelImplementation _model = new(); 
+
+												private string _exampleProperty = "";
+
+												public string ExampleProperty
+												{
+													get => _exampleProperty;
+													set => SetProperty(ref _exampleProperty, value);
+												}
+
+												public string ExampleModelProperty
+												{
+													get => _model.ExampleModelProperty;
+													set => SetModelProperty(_model.ExampleModelProperty, value, (v) => _model.ExampleModelProperty = v);
+												}
+
+												public void UpdateAll()
+												{
+													NotifyAllPropertiesChanged();
+												}
+											} 
+
+											class TestViewModelBase
+											{
+												#region Test Property
+
+												[Test]
+												public void TestSettingProperty()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+
+													var updated = viewModel.ExampleProperty = "update";
+
+													Assert.That(viewModel.ExampleProperty, Is.EqualTo("update"));
+												}
+
+												[Test]
+												public void TestSettingPropertyTriggersNotification() 
+												{
+													var viewModel = new ViewModelBaseImplementation();
+													var notificationReceived = false;
+													viewModel.PropertyChanged += (_, __) => { notificationReceived = true; };
+
+													viewModel.ExampleProperty = "update";
+
+													Assert.That(notificationReceived, Is.True);
+												}
+
+												[Test]
+												public void TestSettingPropertyDoesNotTriggerNotificationIfNotNew()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+													var notificationsReceived = 0;
+													var aValue = "update";
+													viewModel.PropertyChanged += (_, __) => { notificationsReceived++; };
+
+													viewModel.ExampleProperty = aValue;
+													viewModel.ExampleProperty = aValue;
+
+													Assert.That(notificationsReceived, Is.EqualTo(1));
+												}
+
+												#endregion
+
+												#region Test ModelProperty
+
+												[Test]
+												public void TestSettingModelProperty()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+
+													var updated = viewModel.ExampleModelProperty = "update";
+
+													Assert.That(viewModel.ExampleModelProperty, Is.EqualTo("update"));
+												}
+
+												[Test]
+												public void TestSettingModelPropertyTriggersNotification()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+													var notificationReceived = false;
+													viewModel.PropertyChanged += (_, __) => { notificationReceived = true; };
+
+													viewModel.ExampleModelProperty = "update";
+
+													Assert.That(notificationReceived, Is.True);
+												}
+
+												[Test]
+												public void TestSettingModelPropertyDoesNotTriggerNotificationIfNotNew()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+													var notificationsReceived = 0;
+													var aValue = "update";
+													viewModel.PropertyChanged += (_, __) => { notificationsReceived++; };
+
+													viewModel.ExampleModelProperty = aValue;
+													viewModel.ExampleModelProperty = aValue;
+
+													Assert.That(notificationsReceived, Is.EqualTo(1));
+												}
+
+												#endregion
+
+												[Test]
+												public void TestNotifyAll()
+												{
+													var viewModel = new ViewModelBaseImplementation();
+													var notificationsAllUpdatedReceived = false;
+													viewModel.PropertyChanged += (_, args) => {
+														notificationsAllUpdatedReceived = args.PropertyName == string.Empty;
+													};
+
+													viewModel.UpdateAll();
+
+													Assert.That(notificationsAllUpdatedReceived, Is.True);
+												}
+											}
+										}
+								</script>
+							</code>
+						</pre>
+					</section>
+				</section>				
+				<section>
+					<section>
+						<h3>Testing a service</h3>
+						<img src="./images/test-service.PNG" height="400">
+					</section>
+					<section>
+						<pre>JsonFileWorkItemRepository.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|10-19|21-67">
+								<script type="text/template">
+									using System.Diagnostics;
+									using System.IO;
+									using System.Text.Json;
+									using TaskTrackingApplication.Models;
+
+									namespace TaskTrackingApplication.Persistence
+									{
+										public sealed class JsonFileWorkItemRepository : IWorkItemRepository
+										{
+											private readonly string _filePath;
+											private readonly JsonSerializerOptions _jsonOptions = new()
+											{
+												WriteIndented = true,
+											};
+
+											public JsonFileWorkItemRepository(string filePath)
+											{
+												_filePath = filePath;
+											}
+
+											#region IWorkItemRepository implementation
+
+											public async Task<IReadOnlyList<WorkItem>> LoadAsync(CancellationToken cancellationToken = default)
+											{
+												if (cancellationToken.IsCancellationRequested)
+												{
+													throw new OperationCanceledException();
+												}
+
+												if (!File.Exists(_filePath))
+												{
+													return [];
+												}
+
+												await using var stream = File.OpenRead(_filePath);
+												var items = await JsonSerializer.DeserializeAsync<List<WorkItem>>(stream, _jsonOptions, cancellationToken);
+
+												return items ?? [];
+											}
+
+											public async Task SaveAsync(IReadOnlyList<WorkItem> items, CancellationToken cancellationToken = default)
+											{
+												var directory = Path.GetDirectoryName(_filePath);
+												if (!string.IsNullOrWhiteSpace(directory))
+												{
+													Directory.CreateDirectory(directory);
+												}
+
+												var tempFilePath = _filePath + ".tmp";
+												Debug.WriteLine($"Saving {items.Count} items to {tempFilePath}");
+
+												await using (var stream = File.Create(tempFilePath))
+												{
+													await JsonSerializer.SerializeAsync(
+														stream,
+														items,
+														_jsonOptions,
+														cancellationToken);
+
+													Debug.WriteLine($"Done ({stream.Position} bytes)");
+												}
+
+												Debug.WriteLine($"Moving temp file to final destination: {_filePath}");
+												File.Move(tempFilePath, _filePath, overwrite: true);
+											}
+
+											#endregion
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>TestJsonFileWorkItemRepository.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|16-36|38-87">
+								<script type="text/template">
+									using TaskTrackingApplication.Models;
+									using TaskTrackingApplication.Persistence;
+
+									namespace TestTaskTrackingApplication.Persistence
+									{
+										internal class TestJsonFileWorkItemRepository
+										{
+											private JsonFileWorkItemRepository _repository;
+											private string _filePath;
+
+											private async Task ManipulateFiletoGivingNullSeserialization()
+											{
+												File.WriteAllText(_filePath, "null");
+											}
+											
+											[OneTimeSetUp]
+											public async Task InitialSetUp() 
+											{
+												_filePath = AppPaths.TestWorkItemsFile;
+												var testDirectory = Path.GetDirectoryName(_filePath);
+
+												if (Directory.Exists(testDirectory)) 
+												{ 
+													Directory.Delete(testDirectory, true);
+												}
+												this._repository = new JsonFileWorkItemRepository(_filePath);
+											}
+
+											[SetUp]
+											public async Task SetUp()
+											{
+												await this._repository.SaveAsync([
+													new WorkItem(),
+													new WorkItem(),
+													]);
+											}
+
+											[Test]
+											public async Task TestLoad() 
+											{
+												var items = await _repository.LoadAsync();
+
+												Assert.That(items.Count, Is.EqualTo(2));
+											}
+
+											[Test]
+											public async Task TestLoadAsyncAlreadyCancelled() 
+											{
+												using var source = new CancellationTokenSource();
+												source.Cancel();
+
+												Assert.That(
+													async () => await _repository.LoadAsync(source.Token), 
+													Throws.InstanceOf<OperationCanceledException>());
+											}
+
+
+											[Test]
+											public async Task TestSaveAsyncAlreadyCancelled()
+											{
+												using var source = new CancellationTokenSource();
+												source.Cancel();
+
+												Assert.That(
+													async () => await _repository.SaveAsync([], source.Token),
+													Throws.InstanceOf<OperationCanceledException>());
+											}
+
+											[Test]
+											public async Task TestLoadMissingFile()
+											{
+												File.Delete(_filePath);
+
+												var items = await _repository.LoadAsync();
+
+												Assert.That(items, Is.Empty);
+											}
+
+											[Test]
+											public async Task TestLoadInvalidFile()
+											{
+												await ManipulateFiletoGivingNullSeserialization();
+
+												var items = await _repository.LoadAsync();
+
+												Assert.That(items, Is.Empty);
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Testing the system</h3>
+						<img src="./images/test-system.PNG" height="400">
+					</section>
+					<section>
+						<pre>MainViewModel.xaml.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|12-21">
+								<script type="text/template">
+									using System.Windows;
+									using TaskTrackingApplication.Persistence;
+									using TaskTrackingApplication.ViewModels;
+
+									namespace TaskTrackingApplication.Views
+									{
+										/// <summary>
+										/// Interaction logic for MainWindow.xaml
+										/// </summary>
+										public partial class MainWindow : Window
+										{
+											public MainWindow()
+											{
+												InitializeComponent();
+
+												var repository = new JsonFileWorkItemRepository(AppPaths.WorkItemsFile);
+												var mainViewModel = new MainViewModel(repository);
+												DataContext = mainViewModel;
+
+												Loaded += async (_, __) => await mainViewModel.LoadAsync();
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>MainViewModel.xaml</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="1-8|22-30|33-37">
+								<script type="text/template">
+									<Window x:Class="TaskTrackingApplication.Views.MainWindow"
+											xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+											xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+											xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+											xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+											xmlns:local="clr-namespace:TaskTrackingApplication" xmlns:viewmodels="clr-namespace:TaskTrackingApplication.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+											mc:Ignorable="d"
+											Title="Work Items" Height="450" Width="800">
+										<Grid Margin="12">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="2*" />
+												<ColumnDefinition Width="3*" />
+											</Grid.ColumnDefinitions>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto" />
+												<RowDefinition Height="*" />
+											</Grid.RowDefinitions>
+
+											<StackPanel Grid.ColumnSpan="2"
+														Orientation="Horizontal"
+														Margin="0,0,0,12">
+												<Button Content="Add"
+														Width="100"
+														Margin="0,0,8,0"
+														Command="{Binding AddItemCommand}"
+														AutomationProperties.AutomationId="AddItemButton" />
+												<Button Content="Delete"
+														Width="100"
+														Command="{Binding DeleteSelectedItemCommand}"
+														AutomationProperties.AutomationId="DeleteSelectedItemButton" />
+											</StackPanel>
+
+											<ListBox Grid.Row="1"
+													Grid.Column="0"
+													ItemsSource="{Binding Items}"
+													SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+													DisplayMemberPath="DisplayTitle" />
+
+											<StackPanel Grid.Column="2"
+														Orientation="Horizontal"
+														HorizontalAlignment="Right"
+														Margin="0,0,0,12">
+												<Button Content="Save"
+													Width="100"
+													Margin="0,0,8,0"
+													Command="{Binding SaveCommand}"/>
+											</StackPanel>
+
+											<Grid Grid.Row="1"
+												Grid.Column="1"
+												Margin="16,0,0,0">
+
+												<Border Padding="16"
+														Background="#F5f5f5"
+														BorderThickness="1"
+														CornerRadius="6">
+													<Border.Style>
+														<Style TargetType="Border">
+															<Setter Property="Visibility" Value="Collapsed" />
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
+																	<Setter Property="Visibility" Value="Visible" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Border.Style>
+
+													<StackPanel>
+														<TextBlock Text="No items" FontSize="16" FontWeight="SemiBold" />
+														<TextBlock Margin="8,0,0,0"
+																Text="Add an item in the list to the left"
+																Foreground="Gray"
+																TextWrapping="Wrap" />
+													</StackPanel>
+												</Border>
+
+												<Grid>
+													<Grid.Style>
+														<Style TargetType="Grid">
+															<Setter Property="Visibility" Value="Visible" />
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding ItemIsSelected}" Value="False">
+																	<Setter Property="Visibility" Value="Collapsed" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Grid.Style>
+
+													<Grid.RowDefinitions>
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="Auto" />
+														<RowDefinition Height="*" />
+													</Grid.RowDefinitions>
+
+													<TextBlock Grid.Row="0" Text="Title" FontWeight="Bold" AutomationProperties.AutomationId="EditTitleLabel" />
+													<TextBox Grid.Row="1"
+														Margin="0,4,0,8"
+														Text="{Binding SelectedItem.Title, UpdateSourceTrigger=PropertyChanged}" />
+
+													<TextBlock Grid.Row="2" Text="Due date" />
+													<DatePicker Grid.Row="3" SelectedDate="{Binding SelectedItem.DueDate, Mode=TwoWay}" />
+
+													<TextBlock Grid.Row="4" Text="Status" />
+													<ComboBox Grid.Row="5" ItemsSource="{Binding AvailableStatuses}"
+															SelectedItem="{Binding SelectedItem.Status, Mode=TwoWay}"
+															Margin="0,4,0,8" />
+
+													<TextBlock Grid.Row="6" 
+														Text="Description"
+														FontWeight="Bold" />
+													<TextBox Grid.Row="7"
+														Margin="0,4,0,0"
+														Text="{Binding SelectedItem.Description, UpdateSourceTrigger=PropertyChanged }" />
+													
+												</Grid>
+											</Grid>
+										</Grid>
+									</Window>
+								</script>
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>TestMainViewModel.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|7-27|31-38|40-126">
+								<script type="text/template">
+									using TaskTrackingApplication.Models;
+									using TaskTrackingApplication.Persistence;
+									using TaskTrackingApplication.ViewModels;
+
+									namespace TestTaskTrackingApplication.ViewModels
+									{
+										internal class MockRepository : IWorkItemRepository
+										{
+											public IReadOnlyList<WorkItem> LatestSave
+											{
+												get;
+												set;
+											} = [
+												new WorkItem { Title = "Item 1", Description = "What is Item 1 about" },
+												new WorkItem { Title = "Item 2", Description = "What is Item 2 about" },
+											];
+
+											public async Task<IReadOnlyList<WorkItem>> LoadAsync(CancellationToken cancellationToken = default)
+											{
+												return LatestSave;
+											}
+
+											public async Task SaveAsync(IReadOnlyList<WorkItem> items, CancellationToken cancellationToken = default)
+											{
+												LatestSave = items;
+											}
+										}
+
+										internal class TestMainViewModel
+										{
+											private MainViewModel _viewModel;
+
+											[SetUp]
+											public async Task SetUp()
+											{
+												_viewModel = new MainViewModel(new MockRepository());
+												await _viewModel.LoadAsync();
+											}
+
+											[Test]
+											public void TestDefaultValuesSet()
+											{
+												Assert.That(_viewModel.Items.Count, Is.GreaterThan(0));
+											}
+
+											[Test]
+											public void TestAddItemCommadIsInitialized()
+											{
+												Assert.That(_viewModel.AddItemCommand, Is.Not.Null);
+											}
+
+											[Test]
+											public void TestDeleteSelectedItemCommadIsInitialized()
+											{
+												Assert.That(_viewModel.DeleteSelectedItemCommand, Is.Not.Null);
+											}
+
+											[Test]
+											public void TestFirstItemIsDefaultSelectedItem()
+											{
+												Assert.That(_viewModel.SelectedItem, Is.EqualTo(_viewModel.Items.First()));
+											}
+
+											[Test]
+											public void TestAddItemCommand()
+											{
+												var before = _viewModel.Items.Count;
+
+												_viewModel.AddItemCommand.Execute(null!);
+
+												Assert.That(_viewModel.Items.Count, Is.EqualTo(before + 1));
+											}
+
+											[Test]
+											public void TestDeleteSelectedItemCommand()
+											{
+												var first = _viewModel.Items[0];
+												var second = _viewModel.Items[1];
+
+												_viewModel.SelectedItem = second;
+												_viewModel.DeleteSelectedItemCommand.Execute(null!);
+
+												Assert.That(_viewModel.Items, Is.EquivalentTo([first]));
+											}
+
+											[Test]
+											public void TestDeleteNullItemCommand()
+											{
+												_viewModel.SelectedItem = null;
+
+												var first = _viewModel.Items[0];
+												var second = _viewModel.Items[1];
+										
+												_viewModel.DeleteSelectedItemCommand.Execute(null!);
+
+												Assert.That(_viewModel.Items, Is.EquivalentTo([first, second]));
+											}
+
+											[Test] 
+											public void TestCanDeleteCommandExecute()
+											{
+												_viewModel.SelectedItem = null;
+
+												var canExecute = _viewModel.DeleteSelectedItemCommand.CanExecute(null!);
+
+												Assert.That(canExecute, Is.False);
+											}
+
+											[Test]
+											public async Task TestSaveItemsCommand()
+											{
+												var GetIdSet =
+													(IEnumerable<WorkItemViewModel> vms) => new HashSet<Guid>(vms.Select(vm => vm.Id));
+
+												var initialItemIds = GetIdSet(_viewModel.Items);
+												var AddTaskAsFingerprint = () => { _viewModel.AddItemCommand.Execute(null!); };
+												AddTaskAsFingerprint();
+												var updatedItemIds = GetIdSet(_viewModel.Items);
+
+												_viewModel.SaveCommand.Execute(null!);
+
+												await _viewModel.LoadAsync();
+												var reloadedItems = GetIdSet(_viewModel.Items);
+												Assert.That(reloadedItems, Is.Not.EquivalentTo(initialItemIds));
+												Assert.That(reloadedItems, Is.EquivalentTo(updatedItemIds));
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Testing the full application</h3>
+						<img src="./images/wpf-app-ui.png">
+					</section>
+
+					<section>
+						<h4>UI states</h4>
+						<table style="border: none; border-collapse: collapse; border-spacing: 0;">
+							<tr style="border: none; border-collapse: collapse; border-spacing: 0;">
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;"><img src="./images/wpf-app-ui.png" width="300"></td>
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;"><img src="./images/wpf-app-empty-state.png" width="300"></td>
+							</tr>
+							<tr style="border: none; border-collapse: collapse; border-spacing: 0;">
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;" align="center">starting</td>
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;" align="center">empty</td>
+							</tr>
+						</table>
+					</section>
+
+					<section>
+						<pre>AppStartupTests.cs</pre>
+						<pre data-id="code-animation">
+							<code class="language-csharp" data-trim data-line-numbers="|1-6|8|15-35|37-49|51-87">
+								<script type="text/template">
+									using FlaUI.Core;
+									using FlaUI.Core;
+									using FlaUI.Core.AutomationElements;
+									using FlaUI.Core.Exceptions;
+									using FlaUI.UIA3;
+									using TaskTrackingApplication.Persistence;
+
+									namespace TaskTrackingApplication.UiTests
+									{
+										public class ApplicationStartupTests
+										{
+											private JsonFileWorkItemRepository _repository;
+											private string _filePath;
+
+											[OneTimeSetUp]
+											public async Task InitialSetUp()
+											{
+												_filePath = AppPaths.UiTestWorkItemsFile;
+												var testDirectory = Path.GetDirectoryName(_filePath);
+
+												if (Directory.Exists(testDirectory))
+												{
+													Directory.Delete(testDirectory, true);
+												}
+												this._repository = new JsonFileWorkItemRepository(_filePath);
+												if (File.Exists(_filePath)) 
+												{ 
+													File.Delete(_filePath);
+												}
+											}
+
+											[SetUp]
+											public void Setup()
+											{
+											}
+
+											[Test]
+											public void TestMainWindowIsVisible()
+											{
+												using var app = Application.Launch(@"C:\Users\pasjo\OneDrive - Knightec Group\src\test-wpf\TaskTrackingApplication\bin\Debug\net10.0-windows\TaskTrackingApplication.exe");
+												app.WaitWhileMainHandleIsMissing();
+
+												using var automation = new UIA3Automation();
+												var window = app.GetMainWindow(automation);
+
+												Assert.That(window, Is.Not.Null);
+												Assert.That(string.IsNullOrWhiteSpace(window.Title), Is.False);
+												Assert.That(window.Title, Is.EqualTo("Work Items"));
+											}
+
+											[Test]
+											public void TestEditorAppearsWhenItemCreated()
+											{
+												using var app = Application.Launch(@"C:\Users\pasjo\OneDrive - Knightec Group\src\test-wpf\TaskTrackingApplication\bin\Debug\net10.0-windows\TaskTrackingApplication.exe");
+												app.WaitWhileMainHandleIsMissing();
+
+												using var automation = new UIA3Automation();
+												var window = app.GetMainWindow(automation);
+												
+												var deleteButton = window?.FindFirstDescendant(
+														component => component.ByAutomationId("DeleteSelectedItemButton")
+													).AsButton();
+
+												for (var i = 0; i < 10; i++)
+												{
+													try
+													{
+														deleteButton?.Invoke();
+													}
+													catch (ElementNotEnabledException) { }
+												}
+
+												var titleLabelNoItems = window?.FindFirstDescendant(
+													component => component.ByAutomationId("EditTitleLabel"));
+												Assert.That(titleLabelNoItems, Is.Null);
+
+												var addButton = window?.FindFirstDescendant(
+														component => component.ByAutomationId("AddItemButton")
+													).AsButton();
+
+												addButton?.Invoke();
+
+												var titleLabelOneItem = window?.FindFirstDescendant(
+													component => component.ByAutomationId("EditTitleLabel"));
+
+												Assert.That(titleLabelOneItem, Is.Not.Null);
+											}
+										}
+									}
+								</script>
+							</code>
+						</pre>
+
+						<table style="border: none; border-collapse: collapse; border-spacing: 0;">
+							<tr style="border: none; border-collapse: collapse; border-spacing: 0;">
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;"><img src="./images/wpf-app-ui.png" width="300"></td>
+								<td style="border: none; border-collapse: collapse; border-spacing: 0;"><img src="./images/wpf-app-empty-state.png" width="300"></td>
+							</tr>
+						</table>
+					</section>
+					</section>
+				</section>
 			</div>
 		</div>
+
+
 
 		<script src="dist/reveal.js"></script>
 		<script src="dist/plugin/notes.js"></script>
 		<script src="dist/plugin/markdown.js"></script>
 		<script src="dist/plugin/highlight.js"></script>
+
 		<script>
+			const pyramid = {
+				top: 'end-to-end tests',
+				mid: 'integration tests',
+				bottom: 'unit tests',
+			}
+
+			const targets = {
+				top: '1',
+				mid: '10',
+				bottom: '100',
+			}
+
+			function drawTestPyramid(svgId, segments) {
+				const svg = document.getElementById(svgId);
+				svg.innerHTML = '';
+	
+				const width = svg.getAttribute('width');
+				const height = svg.getAttribute('height');
+
+				const centerX = width / 2;
+				const Y_MARGIN = 40;
+				const topY = Y_MARGIN;
+				const bottomY = height - Y_MARGIN;
+
+				const levels = segments.length;
+				const levelHeight = (bottomY - topY) / levels;
+
+				const X_MARGIN = 40;
+				const maxWidth = width - 2 * X_MARGIN;
+
+				const svgNs = 'http://www.w3.org/2000/svg';
+
+				const totalTargets =Object.values(targets).reduce((acc, value) => acc + value, 0);
+				const maxTargets = Math.max(Object.values(targets));
+
+				segments.forEach((seq, i) => {
+					const y1 = topY + i * levelHeight;
+					const y2 = topY + (i + 1) * levelHeight;
+
+					const topWidth = maxWidth * seq.topWidth / 100;
+					const bottomWidth = maxWidth * seq.bottomWidth / 100;
+
+					const points = [
+						[centerX - topWidth / 2, y1],
+						[centerX + topWidth / 2, y1],
+						[centerX + bottomWidth / 2, y2],
+						[centerX - bottomWidth / 2, y2],
+					].map(point => point.join(',')).join(' ');
+
+					const polygon = document.createElementNS(svgNs, 'polygon');
+					polygon.setAttribute('points', points);
+					polygon.setAttribute('fill', seq.color);
+					polygon.setAttribute('stroke', '#ffffff');
+					polygon.setAttribute('stroke-width', '8');
+					svg.appendChild(polygon);
+
+					const text = document.createElementNS(svgNs, 'text');
+					text.setAttribute('x', centerX);
+					text.setAttribute('y', (y1 + y2) / 2);
+					text.setAttribute('text-anchor', 'middle');
+					text.setAttribute('dominant-baseline', 'middle');
+					text.setAttribute('fill', '#111');
+					text.setAttribute('font-size', '20');
+					text.setAttribute('font-family', 'sans-serif');
+					text.textContent = `${seq.name}`;
+					svg.appendChild(text);
+				})
+			}
+
+			function render() {
+				console.log("RENDERING");
+				document.querySelectorAll('[data-bind]').forEach(element => {
+					const key = element.dataset.bind;
+					element.textContent = pyramid[key] || '...';
+				});
+
+				const topInput = document.getElementById('top');
+				const midInput = document.getElementById('mid');
+				const bottomInput = document.getElementById('bottom');
+
+				if (topInput) {
+					topInput.value = pyramid.top;
+				}
+
+				if (midInput) {
+					midInput.value = pyramid.mid;
+				}
+
+				if (bottomInput) {
+					bottomInput.value = pyramid.bottom;
+				}
+
+				const topTargetInput = document.getElementById('top-target');
+				const midTargetInput = document.getElementById('mid-target');
+				const bottomTargetInput = document.getElementById('bottom-target');
+
+				if (topTargetInput) {
+					topTargetInput.value = targets.top;
+				}
+
+				if (midTargetInput) {
+					midTargetInput.value = targets.mid;
+				}
+
+				if (bottomTargetInput) {
+					bottomTargetInput.value = targets.bottom;
+				}
+
+				drawTestPyramid('generalPyramid', [
+					{name: "expensive", key: 'top', topWidth: 1, bottomWidth: 33, color: '#fca5a5'}, 
+					{name: "costly", key: 'mid', topWidth: 33, bottomWidth: 66, color: '#fdba74'}, 
+					{name: "cheap", key: 'bottom', topWidth: 66, bottomWidth: 99, color: '#86efac'},
+				])
+
+				drawTestPyramid('testPyramid', [
+					{name: pyramid['top'], key: 'top', topWidth: 1, bottomWidth: 33, color: '#fca5a5'}, 
+					{name: pyramid['mid'], key: 'mid', topWidth: 33, bottomWidth: 66, color: '#fdba74'}, 
+					{name: pyramid['bottom'], key: 'bottom', topWidth: 66, bottomWidth: 99, color: '#86efac'},
+				])
+			}
+
+			function wireInputs() {
+				document.getElementById('top')?.addEventListener('input', e => {
+					pyramid.top = e.target.value;
+					render();
+				});
+
+				document.getElementById('mid')?.addEventListener('input', e => {
+					pyramid.mid = e.target.value;
+					render();
+				});
+
+				document.getElementById('bottom')?.addEventListener('input', e => {
+					pyramid.bottom = e.target.value;
+					render();
+				});
+			}
+
 			// More info about initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
@@ -38,6 +1509,14 @@
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
 			});
+
+			Reveal.on('ready', () => {
+				wireInputs();
+			})
+
+			Reveal.on('slidechanged', () => {
+				render();
+			})
 		</script>
 	</body>
 </html>
